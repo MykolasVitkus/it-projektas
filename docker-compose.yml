@@ -15,12 +15,12 @@ services:
         published: 8080
         protocol: tcp
   mysql:
-    build: ../../external_services/MySQL
+    build: ./external_services/MySQL
     container_name: mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
     ports:
-      - "3306:3306"
+      - "3307:3307"
     networks:
       - dev_net
 
