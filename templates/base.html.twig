@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Netikras Kinas{% endblock %}</title>
+
+    {% block stylesheets %}{% endblock %}
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../css/app.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <style type="text/css">
+        body {
+            background-color: #FFFFFF;
+        }
+
+        .ui.menu .item img.logo {
+            margin-right: 1.5em;
+        }
+
+        .main.container {
+            margin-top: 1em;
+        }
+
+        .wireframe {
+            margin-top: 2em;
+        }
+
+        .ui.footer.segment {
+            margin: 5em 0em 0em;
+            padding: 5em 0em;
+        }
+
+        .hidden-top {
+            height: 80px;
+        }
+
+        #user_birthDate {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+    </style>
+</head>
+{% set path = app.request.attributes.get('_route') %}
+<body>
+<div class="ui fixed inverted menu">
+    <div class="ui container">
+        <a href="{{ path('film_index') }}" class="header item">
+            <i class="ui video icon"></i>
+            Netikras Kinas
+        </a>
+        <div class="right menu">
+
+            <a href="{{ path('film_index') }}" class="{% if path == 'film_index' %}active {% endif %}item">Dabar Rodome</a>
+            <a href="{{ path('show_index') }}" class="{% if path == 'show_index' %}active {% endif %}item">
+                Seansai</a>
+            {% if is_granted('ROLE_USER') %}
+                <div class="ui simple dropdown item">
+                    Naršyti <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <div class="header">direktorius</div>
+                        <a class="item" href="{{ path('statistics_index') }}"><i class="chart bar icon"></i>Statistika</a>
+                        <div class="header">jūsų profilis</div>
+                        <a class="item" href="{{ path('ticket_index') }}"><i class="ticket icon"></i>Bilietai</a>
+                        <a class="item" href="{{ path('logout') }}"><i class="sign-out icon"></i>Atsijungti</a>
+                    </div>
+                </div>
+            {% else %}
+                <a class="item" href="{{ path('login') }}">Prisijungti</a>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="item" href="{{ path('easyadmin') }}">Administratoriaus Panelė</a>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+<div class="hidden-top"></div>
+{% for message in app.flashes('info') %}
+    <div class="ui container">
+        <div class="ui info message">
+            <div class="header">
+                <i class="info icon"></i>
+                Informacija
+            </div>
+            <p>{{ message }}</p>
+        </div>
+    </div>
+{% endfor %}
+{% for message in app.flashes('success') %}
+    <div class="ui container">
+        <div class="ui success message">
+            <div class="header">
+                <i class="check icon"></i>
+                Atlikta sėkmingai
+            </div>
+            <p>{{ message }}</p>
+        </div>
+    </div>
+{% endfor %}
+
+{% block body %}{% endblock %}
+
+
+<div class="ui inverted vertical footer segment bottom-footer">
+    <div class="ui center aligned container">
+        <div class="ui horizontal inverted small divided link list">
+            <div class="item">Darbą atliko Mykolas Vitkus IFF-7/1</div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.special.cards .image').dimmer({
+        on: 'hover'
+    });
+</script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>
+

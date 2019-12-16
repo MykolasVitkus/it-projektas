@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="ui container big">
+
+        <div class="ui two statistics">
+            <div class="margin-bottom"></div>
+
+            <div class="statistic">
+                <div class="value">
+                    {{ shows }}
+                </div>
+                <div class="label">
+                    Iš viso seansų
+                </div>
+            </div>
+            <div class="statistic">
+                <div class="value">
+                    {{ tickets }}
+                </div>
+                <div class="label">
+                    Parduota Bilietų
+                </div>
+            </div>
+            <div class="margin-bottom"></div>
+            <div class="statistic">
+                <div class="value">
+                    <i class="ui dollar sign"></i>${{ tickets * 6 }}.00
+                </div>
+                <div class="label">
+                    Pelnas
+                </div>
+            </div>
+
+            <div class="statistic">
+                <div class="value">
+                    {{ films }}
+                </div>
+                <div class="label">
+                    Iš viso įkelta filmų
+                </div>
+            </div>
+            <div class="margin-bottom"></div>
+
+            <div class="statistic">
+                <div class="value">
+                    {{ users|length }}
+                </div>
+                <div class="label">
+                    Prisiregistravusių vartotojų
+                </div>
+            </div>
+            <div class="statistic">
+                <div class="value">
+                    {{ mostProfitableFilm.title }}
+                </div>
+                <div class="label">
+                    Pelningiausias Filmas
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+{% endblock %}
+

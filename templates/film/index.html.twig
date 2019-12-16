@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="ui main text container big">
+        <h1 class="ui header">Dabar Rodome</h1>
+        <div class="ui divider"></div>
+        <div class="ui three special cards">
+            {% for film in films %}
+            <div class="card">
+                <div class="blurring dimmable image">
+                    <div class="ui dimmer">
+                        <div class="content">
+                            <div class="center">
+                                <a class="ui inverted button" href="{{ path('film_view', { id: film.id }) }}">Skaityti Daugiau</a>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="/uploads/images/films/{{ film.image }}">
+                </div>
+                <div class="content">
+                    <a class="header">{{ film.title }}</a>
+                    <div class="meta">
+                        <span class="date">{{ film.releaseDate|date('Y') }}</span>
+                    </div>
+                </div>
+                <div class="extra content">
+                    {{ film.genres }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="ui divider"></div>
+        <div class="navigation">
+            {{ knp_pagination_render(films) }}
+        </div>
+
+    </div>
+{% endblock %}

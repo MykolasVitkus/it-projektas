@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="ui container big">
+
+        <div class="ui horizontal divider">
+            Bilietai
+        </div>
+
+        <div class="ui huge middle aligned celled list">
+            {% if tickets is empty %}
+                <h4>
+                    Jūs neturite bilietų
+                </h4>
+            {% endif %}
+
+            {% for ticket in tickets %}
+                <div class="item">
+                    <div class="content content-list">
+                        <div class="item-list bold" style="width: 30%;">
+                            {{ ticket.filmShow.time|date('Y-m-d H:i') }}
+                        </div>
+                        <img class="item-list-image" src="/uploads/images/films/{{ ticket.filmShow.film.image }}">
+                        <div class="item-list" style="width: 40%">
+                            {{ ticket.filmShow.film.title }}
+                        </div>
+                        <div class="item-list no-padding" style="width: 40%">
+                            Salė {{ ticket.filmShow.room.id }}
+                        </div>
+                        <div class="item-list no-padding">
+                            <a href="{{ path('ticket_refund', { id: ticket.id }) }}" class="ui red button item-list">Atšaukti
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="ui horizontal divider">
+                Atšaukta
+            </div>
+            {% for ticket in refundedTickets %}
+                <div class="item">
+                    <div class="content content-list refunded">
+                        <div class="item-list bold" style="width: 27%;">
+                            {{ ticket.filmShow.time|date('Y-m-d H:i') }}
+                        </div>
+                        <img class="item-list-image" src="/uploads/images/films/{{ ticket.filmShow.film.image }}">
+                        <div class="item-list" style="width: 40%">
+                            {{ ticket.filmShow.film.title }}
+                        </div>
+                        <div class="item-list no-padding" style="width: 40%">
+                            Salė {{ ticket.filmShow.room.id }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+
+    </div>
+{% endblock %}

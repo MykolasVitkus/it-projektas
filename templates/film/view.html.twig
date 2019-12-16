@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="ui main text container big">
+        <div class="ui two column grid">
+
+            <div class="right floated five wide column">
+                <div class="right floated row">
+                    <img src="/uploads/images/films/{{ film.image }}">
+                </div>
+            </div>
+            <div class="left floated eleven wide column">
+                <div class="ui one column grid">
+                    <div class="row no-padding">
+                        <h2>{{ film.title }}</h2>
+                    </div>
+                    <div class="row no-padding meta">{{ film.releaseDate|date('Y') }}</div>
+                    <div class="row no-padding"><i>{{ film.director }}</i></div>
+                    <div class="row no-padding meta">{{ film.description }}</div>
+                    <div class="row no-padding">Reitingas: {{ film.rating }}</div>
+                    <div class="row no-padding">Žanrai: {{ film.genres }}</div>
+                    <div class="row no-padding">Trukmė: {{ film.duration / 3600 }}h</div>
+                    <div class="row no-padding">Aktoriai: {{ film.actors }}</div>
+                    <div class="row no-padding">Scenarijaus autoriai: {{ film.writers }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="ui divider"></div>
+        <div class="ui segment">
+            <h2>Upcoming shows</h2>
+            <div class="ui divider"></div>
+            <table class="ui table">
+                <thead>
+                <tr>
+                    <th>
+                        Filmas
+                    </th>
+                    <th>
+                        Data
+                    </th>
+                    <th>
+                        Salė
+                    </th>
+                    <th>
+                        Likę Bilietai
+                    </th>
+                    <th>
+                        Veiksmai
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for show in film.shows %}
+                    {% if show.time > date() and show.time < date('+3days') %}
+                    <tr>
+                        <td>{{ show.film.title }}</td>
+                        <td>{{ show.time|date('Y-m-d H:i') }}</td>
+                        <td>Salė {{ show.room.id }}</td>
+                        <td>{{ show.room.availableSeats - show.tickets|length }}</td>
+                        <td>
+                            <a class="ui button" href="{{ path('show_view', { id: show.id }) }}">
+                                Bilietai
+                            </a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+{% endblock %}

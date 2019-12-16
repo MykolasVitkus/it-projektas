@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="ui container big">
+
+        <div class="ui items">
+            <div class="item">
+                <div class="image">
+                    <img src="/uploads/images/films/{{ show.film.image }}">
+                </div>
+                <div class="content">
+                    <a class="header">{{ show.film.title }}</a>
+                    <br/><br/>
+                    <i>Režisierius {{ show.film.director }}</i>
+                    <br/><br/>
+                    <span>Filmas anglų kalba</span>
+                    <br/><br/>
+                    <span>{{ show.film.description }}</span>
+                    <br/><br/>
+                    <i>Vaidina {{ show.film.actors }}</i>
+                    <br/><br/>
+                    <div class="extra">
+                        Filmas baigiasi apie {{ show.time|date_modify('+' ~ show.film.duration ~ 'second')|date('H:i') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/><br/>
+        <div class="ui three statistics">
+
+            <div class="statistic">
+                <div class="value">
+                    {{ show.time|date('H:i') }}
+                </div>
+                <div class="label">
+                    Kada?
+                </div>
+            </div>
+            <div class="statistic">
+                <div class="value">
+                    {{ show.room.availableSeats }}
+                </div>
+                <div class="label">
+                    Salės talpa
+                </div>
+            </div>
+            <div class="statistic">
+                <div class="value" {% if show.room.availableSeats - show.tickets|length == 0 %}style="color: red" {% endif %}>
+
+                    {{ show.room.availableSeats - show.tickets|length }}
+                </div>
+                <div class="label">
+                    Likę Bilietų
+                </div>
+            </div>
+        </div>
+        {% if show.room.availableSeats - show.tickets|length > 0 %}
+            <div class="ticket-purchase">
+                <form method="post" action="{{ path('ticket_purchase') }}">
+                    <input type="hidden" name="show" value="{{ show.id }}">
+                    <div class="ui action input">
+                        <label class="ui big label"><i class="dollar icon"></i><span id="amount">0.00</span></label>
+                        <input required type="number" placeholder="0" min="1" name="ticketAmount" id="ticketAmount"
+                               max="{{ show.room.availableSeats - show.tickets|length }}">
+                        <button class="ui button">Įsigyti Bilietą</button>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+
+
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $('#ticketAmount').change(function () {
+            var amount = $('#ticketAmount').val();
+            var price = amount * 6;
+            $('#amount').text(price.toFixed(2));
+        });
+    </script>
+{% endblock %}

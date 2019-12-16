@@ -1,0 +1,44 @@
+easy_admin:
+  site_name: 'Netikras Kinas'
+  user:
+    name_property_path: 'email'
+  design:
+    brand_color: '#1ABC9C'
+  entities:
+    Film:
+      class: App\Entity\Film
+      form:
+        fields:
+          - { property: 'title', type: 'text' }
+          - { property: 'releaseDate', type_options: { widget: 'single_text' } }
+          - { property: 'director', type: 'text' }
+          - { property: 'imageFile', type: 'vich_image' }
+          - { property: 'description', type: 'textarea' }
+          - { property: 'rating', type: 'text' }
+          - { property: 'genres', type: 'text' }
+          - { property: 'actors', type: 'text' }
+          - { property: 'writers', type: 'text' }
+      list:
+        fields:
+          - { property: 'title', type: 'text' }
+          - { property: 'releaseDate', type: 'date' }
+          - { property: 'director', type: 'text' }
+          - { property: 'image', type: 'image', base_path: '%app.path.film_images%' }
+          - { property: 'description', type: 'textarea' }
+          - { property: 'rating', type: 'text' }
+          - { property: 'genres', type: 'text' }
+          - { property: 'actors', type: 'text' }
+          - { property: 'writers', type: 'text' }
+      show:
+        fields:
+          - { property: 'image', type: 'image', base_path: '%app.path.film_images%' }
+    FilmShow:
+      class: App\Entity\FilmShow
+      form:
+        fields: ['time', 'film', 'room']
+    Room:
+      class: App\Entity\Room
+    Ticket:
+      class: App\Entity\Ticket
+    User:
+      class: App\Entity\User

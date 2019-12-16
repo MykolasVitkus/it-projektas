@@ -1,0 +1,62 @@
+<body>
+<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.css">
+
+<div class="ui middle aligned center aligned grid">
+    <div class="column security-column">
+        <h2 class="ui image header">
+            <div class="content">
+                Prisijungti
+            </div>
+        </h2>
+        <form class="ui large form" method="post">
+            {% if error %}
+                <div class="ui negative message">
+                    <i class="close icon"></i>
+                    <div class="header" style="text-align: left">
+                        Įvyko klaida
+                    </div>
+                    <p style="text-align: left">{{ error.messageKey|trans(error.messageData, 'security') }}
+                    </p></div>
+            {% endif %}
+            <div class="ui stacked segment">
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="password" id="inputPassword" class="form-control" required>
+                    </div>
+                </div>
+                <button class="ui fluid large violet submit button" id="login">Prisijungti</button>
+            </div>
+
+            <div class="ui error message"></div>
+
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+
+
+        </form>
+
+        <div class="ui message">
+            Neturite paskyros? <a href="{{ path('register') }}">Užsiregistruokite</a>
+            <br/>
+{#            Forgot your password? <a href="#">Click here</a>#}
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+<script>
+    $('.close.icon').on('click', function () {
+        $(this).closest(".ui.negative.message").remove();
+    })
+</script>

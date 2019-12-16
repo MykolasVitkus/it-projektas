@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="ui container big">
+
+        <div class="content-list">
+            <div class="item-list no-padding" style="width: 90%">
+                <h1 class="ui header">Seansai</h1>
+            </div>
+            <div class="item-list no-padding">
+                <form class="ui form" id="date-form" method="GET">
+                    <input type="date" class="right floated input" id="datepicker" name="date">
+                </form>
+            </div>
+            <a class="ui right floated violet button" href="{{ path('show_index') }}">Šiandien</a>
+        </div>
+
+        <div class="ui huge middle aligned celled list">
+            {% if shows is empty %}
+                <h4>
+                    Šią dieną kino seansų nerasta.
+                </h4>
+            {% endif %}
+
+            {% for show in shows %}
+                <div class="item">
+                    <div class="content content-list">
+                        <div class="item-list bold">
+                            {{ show.time|date('H:i') }}
+                        </div>
+                        <img class="item-list-image" src="/uploads/images/films/{{ show.film.image }}">
+                        <div class="item-list" style="width: 40%">
+                            {{ show.film.title }}
+                        </div>
+                        <div class="item-list no-padding" style="width: 40%">
+                            Salė {{ show.room.id }}
+                        </div>
+                        <div class="item-list no-padding">
+                            <a href="{{ path('show_view', { id: show.id }) }}" class="ui button item-list" {% if not app.user %}data-tooltip="Jūs turite būti prisijungęs, kad galėtumėte pirkti bilietus"{% endif %}>Plačiau
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+        };
+
+        $(document).ready(function () {
+            var date = getUrlParameter('date');
+            if (date) {
+                $('#datepicker').val(date);
+            } else {
+                var now = new Date();
+
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+                var today = now.getFullYear() + "-" + (month) + "-" + (day);
+                $('#datepicker').val(today);
+            }
+
+
+        });
+
+        $('#datepicker').change(function () {
+            $(this).closest('form').submit();
+        });
+    </script>
+{% endblock %}
