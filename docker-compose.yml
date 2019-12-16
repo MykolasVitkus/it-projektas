@@ -14,6 +14,28 @@ services:
       - target: 80
         published: 8080
         protocol: tcp
+  mysql:
+    build: ../../external_services/MySQL
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    networks:
+      - dev_net
+
+  phpmyadmin:
+    links:
+      - mysql
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "32672:32672"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - PMA_HOST=mysql
+    networks:
+      - dev_net
 
 networks:
   dev_net:
